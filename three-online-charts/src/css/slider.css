@@ -1,0 +1,11 @@
+.slider{
+	width:1000px;
+}
+.selection{
+	border: 1px;
+	border-color: white;
+	fill: black;
+}
+.handle{
+	fill:white;
+}
