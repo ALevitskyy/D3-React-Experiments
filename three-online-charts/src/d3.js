@@ -1,4 +1,7 @@
 import * as d3 from "d3";
+export function clean(ref){
+  d3.select(ref).select("svg").html("")
+}
 export function make_plot(data, ref){
     //variable that makes a line
    var linemaker = d3.line()
@@ -41,13 +44,13 @@ export function make_plot(data, ref){
        .attr("transform","translate(30,0)")
        .call(yAxis)
     }
-export function make_slider(data, ref){
+export function make_slider(data, ref, callback){
   console.log(data);
   const width = 550;
   const height = 100;
   const height2 = 50;
   var length = data.length;
-  var xScale2 = d3.scaleLinear().domain([1,length]).range([40,600]);
+  var xScale2 = d3.scaleLinear().domain([0,length]).range([40,600]);
   var xAxis2 = d3.axisBottom(xScale2); // xAxis for brush slider
   // Stolen from here http://bl.ocks.org/DStruths/9c042e3a6b66048b5bd4
   var svg = d3.select(ref).select("svg");
@@ -92,8 +95,17 @@ export function make_slider(data, ref){
       .attr("fill", "#E6E7E8");  
 
   function brushed() {
-    //console.log(brush.empty() ? xScale2.domain() : brush.extent()); // If brush is empty then reset the Xscale domain to default, if not then make it the brush extent 
+    var brusher = d3.select(ref)
+                    .select(".selection")
+    // So can convert width into relevant indexes
+    // Using the correct scale
+    var start = Number(brusher.attr("x"));
+    var end = start + Number(brusher.attr("width"));
+    var brush_domain = [Math.floor(xScale2.invert(start)),
+                        Math.floor(xScale2.invert(end))];
+    //console.log(brush_domain);
+    callback(brush_domain);
+    //console.log(brush_domain);
   };
-
-    }
+}
 
