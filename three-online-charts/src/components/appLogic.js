@@ -4,22 +4,28 @@ import { random_vector } from "../generate.js";
 import Chart from "./chart.js";
 import Slider from "./slider.js";
 import {connect} from "react-redux";
+import {brush_data, get_data_row} from "../helpers.js";
+import {new_data_point} from "../actions/index.js";
 class AppLogic extends Component{
-	get_data = (data,brush_domain) => {
-           if (brush_domain===null){
-			return data
-		}
-		return data.slice(brush_domain[0],brush_domain[1])
-	                 }
-
+    componentDidMount(){
+    	//setInterval(() => this.props.dispatch(  
+    	//      new_data_point({"x":1,"y":1,"z":1})),500)
+    	// Test for future Onlinization of the chart:)
+    	// Not ready yet - uncontrolled brushing
+    	// Brush rerenders on every brush resulting in problems
+        // Need to try to clean slider and add initial brush
+    }
 	render(){
 		console.log(this);
 		return(<div>
-			      <Chart data = {this.get_data(this.props.data,
+			      <Chart data = {brush_data(
+			      	               get_data_row(this.props.data,"x"),
 			      	                      this.props.brush)}/>
-			      <Chart data = {this.get_data(this.props.data,
+			      <Chart data = {brush_data(
+			      	               get_data_row(this.props.data,"y"),
 			      	                      this.props.brush)}/>
-			      <Chart data = {this.get_data(this.props.data,
+			      <Chart data = {brush_data(
+			      	               get_data_row(this.props.data,"z"),
 			      	                      this.props.brush)}/>
 			      <Slider data = {this.props.data}/>
 			    </div>);

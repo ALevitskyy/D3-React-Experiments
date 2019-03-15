@@ -1,7 +1,6 @@
 export function random_vector(length){
     var result = [];
-    for(var i=1; i<length; i++) {result.push(
-        {"y": get_random_number(),"x": i})}
+    for(var i=1; i<length; i++) {result.push(get_random_point())}
     return result
         }
 
@@ -12,7 +11,7 @@ function get_random_number(){
     return a
         }
         
-function get_random_array(){
+function get_random_point(){
     return {"x":get_random_number(),
             "y":get_random_number(),
             "z":get_random_number()}

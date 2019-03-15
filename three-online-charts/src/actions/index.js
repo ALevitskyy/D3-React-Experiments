@@ -1,7 +1,7 @@
 export const NEW_DATA = "NEW_DATA";
 export const NEW_BRUSH = "NEW_BRUSH";
 
-export function new_data(data_point){
+export function new_data_point(data_point){
 	// Can put socket listener to ComponentDidMount
     return {
         type: NEW_DATA,

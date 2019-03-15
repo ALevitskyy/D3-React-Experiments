@@ -8,10 +8,15 @@ export function make_plot(data, ref){
       .x(function(d){return xScale(d.x)})
       .y(function(d){return yScale(d.y)})
    var length = data.length;
+   var indexes = data.map((d)=>{return d.x})
+   var minimum = Math.min(...indexes)
+   var maximum = Math.max(...indexes)
    //define straightline and scales
-   var straight_line =[{"y":0,"x":0},{"y":0,"x":length}] ;
+   var straight_line =[{"y":0,"x":minimum},
+                       {"y":0,"x":maximum}] ;
    var yScale = d3.scaleLinear().domain([-3.14,3.14]).range([20,200]);
-   var xScale = d3.scaleLinear().domain([1,length]).range([40,600]);
+   var xScale = d3.scaleLinear().domain([minimum,maximum])
+                                .range([40,600]);
     //make axis
    var xAxis = d3.axisTop().scale(xScale);
    var yAxis = d3.axisLeft().scale(yScale);
