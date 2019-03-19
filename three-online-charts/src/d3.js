@@ -49,7 +49,7 @@ export function make_plot(data, ref){
        .attr("transform","translate(30,0)")
        .call(yAxis)
     }
-export function make_slider(data, ref, callback){
+export function make_slider(data, ref, callback, default_brush){
   console.log(data);
   const width = 550;
   const height = 100;
@@ -97,7 +97,13 @@ export function make_slider(data, ref, callback){
     .call(brush)
     .selectAll("rect")
     .attr("height", height2) // Make brush rects same height 
-      .attr("fill", "#E6E7E8");  
+    .attr("fill", "#E6E7E8")
+      // Set up brush correctly on rerender
+    if(default_brush){
+      //Works but results in an infinite loop
+      console.log(d3.select(".brush"));
+     d3.select(".brush").call(brush.move,default_brush.map(xScale2));
+     } // stolen from here https://bl.ocks.org/clhenrick/282c8e050fd7695fdcf14bda6d352c26 
 
   function brushed() {
     var brusher = d3.select(ref)
