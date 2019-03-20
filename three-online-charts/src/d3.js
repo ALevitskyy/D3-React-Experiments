@@ -49,8 +49,8 @@ export function make_plot(data, ref){
        .attr("transform","translate(30,0)")
        .call(yAxis)
     }
-export function make_slider(data, ref, callback){
-  console.log(data);
+export function make_slider(data, ref, callback, default_brush){
+  //console.log(data);
   const width = 550;
   const height = 100;
   const height2 = 50;
@@ -59,9 +59,16 @@ export function make_slider(data, ref, callback){
   var xAxis2 = d3.axisBottom(xScale2); // xAxis for brush slider
   // Stolen from here http://bl.ocks.org/DStruths/9c042e3a6b66048b5bd4
   var svg = d3.select(ref).select("svg");
-  var context = svg.append("g") // Brushing context box container
-    .attr("class", "context");
+  // Setting up the slider interaction
+  svg.on("mouseenter",() => {
+      to_be_updated = false;
+       brushed()})
+     .on("mouseleave",() => {
+      to_be_updated = true;
+       brushed()})
 
+  var context = svg.append("g") // Brushing context box container
+    .attr("class", "context")
 
 //append clip path for lines plotted, hiding those part out of bounds
   svg.append("defs")
@@ -69,16 +76,16 @@ export function make_slider(data, ref, callback){
     .attr("id", "clip")
     .append("rect")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
 
   var brush = d3.brushX()
     .extent([[xScale2.range()[0], 0], [xScale2.range()[1], height2]])
-    .on("brush", brushed);
+    .on("brush", brushed)
 
   context.append("g") // Create brushing xAxis
     .attr("class", "x axis1")
     .attr("transform", "translate(0," + height2 + ")")
-    .call(xAxis2);
+    .call(xAxis2)
 
   var contextArea = d3.area() // Set attributes for area chart in brushing context graph
     .x(function(d) { return xScale2(d.x); }) // x is scaled to xScale2
@@ -89,7 +96,8 @@ export function make_slider(data, ref, callback){
   context.append("path") // Path is created using svg.area details
     .attr("class", "area")
     .attr("d", contextArea(data)) // pass first categories data .values to area path generator 
-    .attr("fill", "#F1F1F2");
+    .attr("fill", "#F1F1F2")
+
     
   //append the brush for the selection of subsection  
   context.append("g")
@@ -97,20 +105,30 @@ export function make_slider(data, ref, callback){
     .call(brush)
     .selectAll("rect")
     .attr("height", height2) // Make brush rects same height 
-      .attr("fill", "#E6E7E8");  
-
+    .attr("fill", "#E6E7E8")
+      // Set up brush correctly on rerender
+    if(default_brush){
+     d3.select(".brush").call(brush.move,default_brush.map(xScale2));
+     } // stolen from here https://bl.ocks.org/clhenrick/282c8e050fd7695fdcf14bda6d352c26 
+     // Initialize must be called after brush is moved to initial location
+     var initialized = true;
+     var to_be_updated = true;
   function brushed() {
     var brusher = d3.select(ref)
                     .select(".selection")
-    // So can convert width into relevant indexes
+    // Need can convert the width of selection into relevant indexes
+    // To be used while plotting
     // Using the correct scale
     var start = Number(brusher.attr("x"));
     var end = start + Number(brusher.attr("width"));
     var brush_domain = [Math.floor(xScale2.invert(start)),
                         Math.floor(xScale2.invert(end))];
-    //console.log(brush_domain);
-    callback(brush_domain);
-    //console.log(brush_domain);
+    // Prevent infinite loop
+    // As initialized then update props, 
+    //t hen initialized again on automatic rerender
+    if(initialized){
+    callback(brush_domain, to_be_updated);
+                    }
   };
 }
 
