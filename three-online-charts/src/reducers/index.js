@@ -11,7 +11,7 @@ function dataReducer(data = random_vector(100), action){
 }
 
 function brushReducer(brush = [20,80], action){
-  console.log(action.payload);
+  //console.log(action.payload);
 	if(action.type === NEW_BRUSH){
         
         return action.payload

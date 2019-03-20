@@ -6,8 +6,11 @@ import { make_slider, clean } from "../d3.js";
 import {new_brush} from "../actions/index.js"
 import "../css/slider.css"
 class Slider extends Component{
-	brush_callback = (brush_domain) => {
-          this.props.dispatch(new_brush(brush_domain))
+    toBeUpdated = true;
+
+	brush_callback = (brush_domain, to_be_updated) => {
+		  this.toBeUpdated = to_be_updated;
+          this.props.dispatch(new_brush(brush_domain));
 	}
 
 	componentDidMount(){
@@ -23,7 +26,10 @@ class Slider extends Component{
 			       this.brush_callback,
 			       this.props.brush)
 	}
-
+	shouldComponentUpdate(){
+		if(!this.toBeUpdated){return(false)};
+		return(true);
+	}
 	render(){
 		return(<div>
 			     <svg className = "slider">

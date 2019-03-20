@@ -8,15 +8,15 @@ import {brush_data, get_data_row} from "../helpers.js";
 import {new_data_point} from "../actions/index.js";
 class AppLogic extends Component{
     componentDidMount(){
-        //setInterval(() => this.props.dispatch(  
-    	//      new_data_point({"x":1,"y":1,"z":1})),2000)
+        setInterval(() => this.props.dispatch(  
+    	      new_data_point({"x":1,"y":1,"z":1})),2000)
     	// Test for future Onlinization of the chart:)
     	// Not ready yet - uncontrolled brushing
     	// Brush rerenders on every brush resulting in problems
         // Need to try to clean slider and add initial brush
+        return !window.inProcessofDoingBrush 
     }
 	render(){
-		console.log(this);
 		return(<div>
 			      <Chart data = {brush_data(
 			      	               get_data_row(this.props.data,"x"),
