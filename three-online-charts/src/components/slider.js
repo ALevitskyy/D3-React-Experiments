@@ -9,8 +9,13 @@ class Slider extends Component{
     toBeUpdated = true;
 
 	brush_callback = (brush_domain, to_be_updated) => {
-		  this.toBeUpdated = to_be_updated;
+		if( !(!to_be_updated & this.toBeUpdated) ){
+			// Prevent 0 update on hover
           this.props.dispatch(new_brush(brush_domain));
+               }
+
+		  this.toBeUpdated = to_be_updated;
+          
 	}
 
 	componentDidMount(){
