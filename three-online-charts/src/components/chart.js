@@ -15,6 +15,7 @@ export default class Chart extends Component{
 	};
 	render(){
 		return(<div>
+			     <h3>{this.props.title}</h3>
 			     <svg className = "chart">
 			     </svg>
 			   </div>

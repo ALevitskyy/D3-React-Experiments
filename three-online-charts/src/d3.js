@@ -14,7 +14,7 @@ export function make_plot(data, ref){
    //define straightline and scales
    var straight_line =[{"y":0,"x":minimum},
                        {"y":0,"x":maximum}] ;
-   var yScale = d3.scaleLinear().domain([-3.14,3.14]).range([20,200]);
+   var yScale = d3.scaleLinear().domain([3.14,-3.14]).range([20,200]);
    var xScale = d3.scaleLinear().domain([minimum,maximum])
                                 .range([40,600]);
     //make axis
@@ -49,6 +49,7 @@ export function make_plot(data, ref){
        .attr("transform","translate(30,0)")
        .call(yAxis)
     }
+    // Slider part of the code
 export function make_slider(data, ref, callback, default_brush){
   //console.log(data);
   const width = 550;
@@ -60,16 +61,14 @@ export function make_slider(data, ref, callback, default_brush){
   // Stolen from here http://bl.ocks.org/DStruths/9c042e3a6b66048b5bd4
   var svg = d3.select(ref).select("svg");
   // Setting up the slider interaction
-  svg.on("mouseenter",() => {
+  var context = svg.append("g") // Brushing context box container
+    .attr("class", "context")
+    .on("mouseenter",() => {
       to_be_updated = false;
        brushed()})
      .on("mouseleave",() => {
       to_be_updated = true;
        brushed()})
-
-  var context = svg.append("g") // Brushing context box container
-    .attr("class", "context")
-
 //append clip path for lines plotted, hiding those part out of bounds
   svg.append("defs")
     .append("clipPath") 
@@ -97,8 +96,6 @@ export function make_slider(data, ref, callback, default_brush){
     .attr("class", "area")
     .attr("d", contextArea(data)) // pass first categories data .values to area path generator 
     .attr("fill", "#F1F1F2")
-
-    
   //append the brush for the selection of subsection  
   context.append("g")
     .attr("class", "x brush")
