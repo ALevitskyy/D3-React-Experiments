@@ -1,6 +1,6 @@
 # Three-online-charts
 #### My hello-world project in combining d3 and react/redux (and pretty much using d3 in react in general)
-##### The link to the project-demo: https://alevitskyy.github.io/react-gh-host-test/ 
+##### The link to the project-demo: https://alevitskyy.github.io/three-online-charts/
 (to read about deploying one page react-apps to GitHub pages for free refer to https://github.com/gitname/react-gh-pages)
 
 ### Goals
@@ -12,7 +12,7 @@
 6) Define slider logic to be able to: freeze (not be affected by updates) on mouseenter event, and when slider includes last observed point, charts and slider should be able to automatically update in responce to new data incoming
 
 ### Demo explanation
-Demo satisfies the goals introduced above. The chart is initialized with 100 data points and is updated every 2 seconds. 
+Demo satisfies the goals introduced above. The chart is initialized with 100 data points and is updated every 1 second. 
 **Known bugs**:
 1) Not always putting slider all the way to the right results in automatic updates (sometimes need to do it 2 times)
 2) When someone clicks on the slider and then starts dragging and while drugging goes outside the triangle, then unexpected behaviour occurs (because d3 triggers "mouseleave" event and the slider unfreezes) - need to fix slider logic 
