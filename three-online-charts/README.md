@@ -22,20 +22,18 @@ while drugging goes outside the triangle, then unexpected behaviour occurs(becau
 ### Combining D3 / React
 There are multiple tutorials and even tutorial book on the topic availabe, such as
 1) https: //leanpub.com/reactd3js
-    2) http: //bl.ocks.org/sxywu/61a4bd0cfc373cf08884
-    3) http: //bl.ocks.org/sxywu/1db896c1a38d89ae71b4
+2) http: //bl.ocks.org/sxywu/61a4bd0cfc373cf08884
+3) http: //bl.ocks.org/sxywu/1db896c1a38d89ae71b4
 
-    One can also
-try to use https: //github.com/Olical/react-faux-dom, but this approach also has its limitations.
+One can also try to use https: //github.com/Olical/react-faux-dom, but this approach also has its limitations.
+Because D3 directly assesses the DOM and React does not like when anyone directly works with it, combining them is quite tricky.
 
-    Because D3 directly assesses the DOM and React does not like when anyone directly works with it, combining them is quite tricky.
-All of the approaches I found on the web require many tricks, memorizing rules, and limit the usage of D3 -
-    i.e.you can not take a ready D3 code snippet and port it to React component with little code changes.Also many of these approaches do not scale well.
-    As a result I decided to use an intuitive approach, as I do not like to think much, which, as I realized later, resembles this tutorial: http: //bl.ocks.org/sxywu/fcef0e6dac231ef2e54b
+All of the approaches I found on the web require many tricks, memorizing rules, and limit the usage of D3 - i.e.you can not take a ready D3 code snippet and port it to React component with little code changes. Also many of these approaches do not scale well.
 
-        The approach involves writing a d3
-    function
-    which draws a chart / slider and then another one which cleans them(which is only called on rerender).
+As a result I decided to use an intuitive approach, as I do not like to think much, which, as I realized later, resembles this tutorial: http: //bl.ocks.org/sxywu/fcef0e6dac231ef2e54b
+
+The approach involves writing a d3 function which draws a chart / slider and then another one which cleans them(which is only called on rerender).
+
 The component receives data from React, and callback
 function via which d3 chart communicates to React(tells it when it can rerender the component and what actions to dispatch with Redux)
 It also recieves the reference from ReactDOM to the component div.
