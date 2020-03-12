@@ -1,19 +1,20 @@
-#
-Three - online - charts#### My hello - world project in combining d3 and react / redux(and pretty much using d3 in react in general)##### The link to the project - demo: https: //alevitskyy.github.io/three-online-charts/
+# Three - online - charts
+#### My hello - world project in combining d3 and react / redux(and pretty much using d3 in react in general)
+##### The link to the project - demo: https: //alevitskyy.github.io/three-online-charts/
     (to read about deploying one page react - apps to GitHub pages
         for free refer to https: //github.com/gitname/react-gh-pages)
-
-        ###Goals 1) Make a basic linear Chart component which takes a javascript array in
-    2) Create 3 instances of the Chart component on one page
+#### Goals 
+1) Make a basic linear Chart component which takes a javascript array in
+2) Create 3 instances of the Chart component on one page
 3) Create a slider component, which can be used to contol what appears on the charts
 4) Create new_data and new_brush actions, which can then be dispatched to reducres to make charts responsive to slider and new data points coming in
-    5) Write reducers to deal with the actions
+5) Write reducers to deal with the actions
 6) Define slider logic to be able to: freeze(not be affected by updates) on mouseenter event, and when slider includes last observed point, charts and slider should be able to automatically update in responce to new data incoming
 
 ### Demo explanation
-Demo satisfies the goals introduced above.The chart is initialized with 100 data points and is updated every 1 second. **
-    Known bugs **:
-    1) Not always putting slider all the way to the right results in automatic updates(sometimes need to do it 2 times)
+Demo satisfies the goals introduced above.The chart is initialized with 100 data points and is updated every 1 second. 
+**Known bugs**:
+1) Not always putting slider all the way to the right results in automatic updates(sometimes need to do it 2 times)
 2) When someone clicks on the slider and then starts dragging and
 while drugging goes outside the triangle, then unexpected behaviour occurs(because d3 triggers "mouseleave"
     event and the slider unfreezes) - need to fix slider logic
@@ -44,9 +45,7 @@ function.
 After that, all is left is to do is to define correctly ShouldComponentUpdate, ComponentDidUpdate and ComponentDidMount(the last 2 only differ in a way that second
     case need to clean DOM, before drawing chart again on rerender)
 
-###
-Rules
-for reusability
+### Rules for reusability
 With the given approach there are quite many ways to get desirable performance from the visualization: you can either change d3 logic or app logic or play around with reducers.
 To improve reusability I decided that,
 if a feature is desirable to be reusable in the future it should be defined in d3 / component part of the code rather than in a reducer(particularly had that choice when doing slider logic).
